@@ -1,10 +1,10 @@
-# Rugby Taylor Engineering Portfolio
+# Rugby Taylor's Engineering Portfolio Website
 
-This repo hosts my engineering portfolio website
+This repo hosts all files relating to my engineering portfolio website
 
-## Portfolio Website
+## Portfolio Website Link
 
-https://rugbytaylor.github.io/
+https://rugbytaylor.github.io
 
 ## Repository Structure
 
