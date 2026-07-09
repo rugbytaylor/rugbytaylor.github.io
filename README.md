@@ -13,5 +13,5 @@ https://rugbytaylor.github.io
 ├── index.html              # Website Main homepage
 ├── projects/               # Individual project pages
 ├── images/                 # All images on website
-├── RugbyTaylor_Resume.pdf  # Resume that needs to be updated manually
+├── RugbyTaylor_Resume.pdf  # Resume that needs manually updating
 └── README.md
