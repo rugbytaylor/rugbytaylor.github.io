@@ -10,8 +10,8 @@ https://rugbytaylor.github.io
 
 ```text
 /
-├── index.html          # Website Main homepage
-├── projects/           # Individual project pages
-├── images/             # All images on website
-├── resume.pdf          #
+├── index.html              # Website Main homepage
+├── projects/               # Individual project pages
+├── images/                 # All images on website
+├── RugbyTaylor_Resume.pdf  # Resume that needs to be updated manually
 └── README.md
