@@ -1,10 +1,8 @@
 # Rugby Taylor Engineering Portfolio
 
-This repository hosts my engineering portfolio website and project documentation.
+This repository hosts my engineering portfolio website and project documentation
 
-## Website
-
-Visit the portfolio:
+## Portfolio Website
 
 https://rugbytaylor.github.io/
 
