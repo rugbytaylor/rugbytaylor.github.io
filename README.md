@@ -1,4 +1,4 @@
-# Rugby Taylor's Engineering Portfolio Website
+# My Engineering Portfolio Website
 
 This repo hosts all files relating to my engineering portfolio website
 
