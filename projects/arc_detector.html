@@ -3,31 +3,108 @@
 <head>
     <title>RugbyTaylor/Arc_Detector_Data_Acquisition</title>
 </head>
-
 <body style="font-family: Arial; max-width: 900px; margin: auto; padding: 40px;">
-
     <p>
         <a href="../index.html">
             Back to Homepage
-            </a>
+        </a>
     </p>
-
     <h1>Arc Detector Data Acquisition</h1>
 
     <h2>Objective</h2>
-
     <p>
-        Capture microsecond voltage pulses and accurately report peak values
-        to a Beckhoff data acquisition system.
+        Capture microsecond voltage pulses from an arc flash optical sensor and
+        accurately report peak values to a Beckhoff PLC data acquisition system.
+        The system needed to reliably detect and hold fast transient pulses long
+        enough for a much slower PLC sampling loop to read them, without
+        sacrificing measurement accuracy.
     </p>
 
     <h2>Key Requirements</h2>
-
     <ul>
         <li>16 channels</li>
         <li>5-10 µs pulse capture</li>
         <li>&lt;0.5% measurement error target</li>
         <li>Industrial environment operation</li>
+    </ul>
+
+    <h2>System Architecture</h2>
+    <p>
+        Each channel receives a 0-4V input pulse from an arc flash optical
+        sensor (photodiode based) representing the intensity of a detected arc
+        event. The core of each channel is a peak-detector circuit built around
+        an AD8066 op amp driving a holding capacitor. The op amp charges the
+        capacitor to the peak input voltage and holds that charge for several
+        milliseconds, which is long enough for the Beckhoff PLC to sample it on
+        its own scan cycle.
+    </p>
+    <p>
+        Each channel outputs two signals to the PLC:
+    </p>
+    <ul>
+        <li>An analog output representing the held peak voltage</li>
+        <li>A digital fault detection output that tells the PLC an arc event was detected and it's time to sample</li>
+    </ul>
+    <p>
+        After the PLC samples the peak value, it drives a reset (RST) signal
+        back to the circuit, which discharges the holding capacitor and
+        prepares the channel to capture the next event.
+    </p>
+
+    <!-- Add a block diagram image here showing: photodiode sensor -> AD8066 peak detector -> analog out / fault out -> PLC -> RST back to circuit -->
+    <!-- <img src="images/arc_detector_block_diagram.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;"> -->
+
+    <h2>Design Challenges and Iteration</h2>
+    <p>
+        Getting accurate peak capture on a 5-10 µs pulse while holding that
+        value stable for milliseconds turned out to be a difficult balance.
+        Early iterations of the circuit only achieved around 10% accuracy,
+        with most of the error coming from capacitor droop, op amp leakage,
+        and reset timing.
+    </p>
+    <p>
+        Through several redesigns of the peak-detector stage and careful
+        component selection, I brought the final iteration down to under 0.5%
+        total measurement accuracy across the full signal path, from optical
+        input to PLC readout. I validated this by feeding known reference
+        pulses into each channel and comparing the PLC's recorded values
+        against the expected input.
+    </p>
+
+    <!-- Add photos or scope captures of early vs final iterations here -->
+    <!-- <img src="images/arc_detector_iterations.png" alt="Design iterations comparison" style="max-width: 100%; margin: 20px 0;"> -->
+
+    <h2>Mechanical and Enclosure Design</h2>
+    <p>
+        In addition to the electrical design, I designed the enclosure housing
+        all 16 channels and selected D-sub connectors to bring signals from the
+        field into the enclosure for a clean, industrial-ready package.
+    </p>
+
+    <!-- Add enclosure and connector photos here -->
+    <!-- <img src="images/arc_detector_enclosure.png" alt="Finished enclosure" style="max-width: 100%; margin: 20px 0;"> -->
+
+    <h2>My Role</h2>
+    <p>
+        This was a solo project completed over about two months, covering
+        circuit design, PCB layout, enclosure design, connector selection,
+        and full system validation and testing.
+    </p>
+
+    <h2>Results</h2>
+    <p>
+        The final system met all key requirements: 16 channels, reliable
+        capture of 5-10 µs pulses, and better than 0.5% total measurement
+        accuracy in an industrial environment.
+    </p>
+
+    <h2>Skills and Tools</h2>
+    <ul>
+        <li>Analog circuit design (peak detection, op amp based signal conditioning)</li>
+        <li>PCB layout</li>
+        <li>Enclosure and connector design</li>
+        <li>PLC integration (Beckhoff)</li>
+        <li>System validation and accuracy testing</li>
     </ul>
 
 </body>
