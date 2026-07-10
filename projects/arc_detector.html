@@ -36,14 +36,12 @@
         an AD8066 op amp driving a holding capacitor. The op amp charges the
         capacitor to the peak input voltage and holds that charge for several
         milliseconds, which is long enough for the PLC to sample it on
-        its own scan cycle.
+        its own scan cycle. Circuit Schematic is shown below.
     </p>
 
-    <img src="../images/arc_detector_f1.png" style="max-width: 100%; margin: 20px 0;">
+    <img src="../images/arc_detector_s1.png" style="max-width: 100%; margin: 20px 0;">
     </img>
-    <img src="../images/arc_detector_b1.jpg" style="max-width: 100%; margin: 20px 0;">
-    </img>
-    
+
     <p>
         Each channel outputs two signals to the PLC:
     </p>
@@ -54,11 +52,13 @@
     <p>
         After the PLC samples the peak value, it drives a reset (RST) signal
         back to the circuit, which discharges the holding capacitor and
-        prepares the channel to capture the next event. The circuit Schematic is shown below.
+        prepares the channel to capture the next event. The final PCB iteration
+        is a modular "hat" design. Each "hat" contains two channels worth of circuitry.
     </p>
 
-    <!-- block diagram here? -->
-    <img src="../images/arc_detector_s1.png" style="max-width: 100%; margin: 20px 0;">
+        <img src="../images/arc_detector_f1.png" style="max-width: 100%; margin: 20px 0;">
+    </img>
+        <img src="../images/arc_detector_b1.jpg" style="max-width: 100%; margin: 20px 0;">
     </img>
 
     <h2>Design Challenges and Iterations</h2>
