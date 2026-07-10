@@ -3,30 +3,42 @@
 <head>
     <title>Rugby Taylor's Portfolio Homepage </title>
     <meta charset="UTF-8">
+<style>
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .headshot {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 3px solid #fff;
+            flex-shrink: 0;
+        }
+        @media (max-width: 600px) {
+            .intro {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
 <body style="font-family: Arial; max-width: 900px; margin: auto; padding: 40px;">
 
 <h1>Rugby Taylor's Portfolio</h1>
 
-css.headshot {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center 20%; /* nudge crop up if needed */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border: 3px solid #fff;
-}
-    
-<img src="headshot.webp" alt="Photo of [Your Name]" class="headshot"> </img>
-
-    
+<div class="intro">
+    <img src="headshot.webp" alt="Photo of Rugby Taylor" class="headshot">
     <p>
         I'm an electrical engineer focused on power electronics, industrial systems,
-        and PCB development. Experienced with high-voltage systems, control 
+        and PCB development. Experienced with high-voltage systems, control
         panels, sensor interfaces, analog circuitry, and custom hardware validation.
     </p>
+</div>
 
 <hr>
 
