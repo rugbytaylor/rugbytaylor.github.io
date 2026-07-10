@@ -38,6 +38,12 @@
         milliseconds, which is long enough for the Beckhoff PLC to sample it on
         its own scan cycle.
     </p>
+
+    <img src="images/arc_detector_f1.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;">
+    </img>
+    <img src="images/arc_detector_b1.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;">
+    </img>
+    
     <p>
         Each channel outputs two signals to the PLC:
     </p>
@@ -52,7 +58,8 @@
     </p>
 
     <!-- Add a block diagram image here showing: photodiode sensor -> AD8066 peak detector -> analog out / fault out -> PLC -> RST back to circuit -->
-    <!-- <img src="images/arc_detector_block_diagram.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;"> -->
+    <img src="images/arc_detector_s1.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;">
+    </img>
 
     <h2>Design Challenges and Iteration</h2>
     <p>
@@ -62,18 +69,22 @@
         with most of the error coming from capacitor droop, op amp leakage,
         and reset timing.
     </p>
+        <img src="images/arc_detector_s2.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;">
+    </img>
+    
     <p>
         Through several redesigns of the peak-detector stage and careful
         component selection, I brought the final iteration down to under 0.5%
         total measurement accuracy across the full signal path, from optical
         input to PLC readout. I validated this by feeding known reference
         pulses into each channel and comparing the PLC's recorded values
-        against the expected input.
+        against the measured input.
     </p>
 
     <!-- Add photos or scope captures of early vs final iterations here -->
-    <!-- <img src="images/arc_detector_iterations.png" alt="Design iterations comparison" style="max-width: 100%; margin: 20px 0;"> -->
-
+    <!--<img src="images/arc_detector_f1.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;">
+        </img> -->
+    
     <h2>Mechanical and Enclosure Design</h2>
     <p>
         In addition to the electrical design, I designed the enclosure housing
