@@ -25,7 +25,7 @@
     <ul>
         <li>16 channels</li>
         <li>5-10 µs pulse capture</li>
-        <li>&lt;0.5% measurement error target</li>
+        <li>&lt;1% measurement error target</li>
         <li>Industrial environment operation</li>
     </ul>
 
@@ -63,7 +63,7 @@
     <p>
         Holding an accurate peak from a 5-10 µs pulse stable for several
         milliseconds proved to be a difficult balance. Early iterations only
-        achieved around 10% accuracy, with most of the error coming from
+        achieved around 90% accuracy, with most of the error coming from
         capacitor droop, op amp and diode leakage, and reset timing.
     </p>
 
@@ -71,8 +71,9 @@
 
     <p>
         After several redesigns of the peak-detector stage, the final iteration
-        reached &lt;0.5% total measurement accuracy across the full signal
-        path, from optical input to PLC readout.
+        reached &lt;0.5% total measurement error across the full signal
+        path, from optical input to PLC readout. This beat the initial goal of
+        1% total measurement error.
     </p>
 
     <img src="../images/arc_detector_t2.jpg" style="max-width: 100%; margin: 20px 0;">
@@ -90,7 +91,7 @@
     <h2>Mechanical and Enclosure Design</h2>
     <p>
         I also designed the enclosure housing all 16 channels and selected
-        connectors to bring D-sub signals from the field into the enclosure
+        connectors to bring D-sub signals from the arc detector into the enclosure
         for a clean, industrial-ready package.
     </p>
 
@@ -109,7 +110,7 @@
     <p>
         The final system met all key requirements: 16 channels, reliable
         capture of 5-10 µs pulses, and better than 0.5% total measurement
-        accuracy in an industrial environment.
+        error in an industrial environment.
     </p>
 
     <h2>Skills and Tools</h2>
