@@ -28,15 +28,25 @@
 </head>
 <body style="font-family: Arial; max-width: 900px; margin: auto; padding: 40px;">
 
-    <p>
+      <p>
         <a href="../index.html">
             Back to Homepage
         </a>
     </p>
-    <h1>600V EV Inverter</h1>
-    <img src="../images/FSAE_car.jpg" style="max-width: 100%; margin: 20px 0;">
+    <div style="display:flex; align-items:center; gap:20px;">
 
-    <h2>Objective</h2>
+<h1>600V EV Inverter</h1>
+        
+        <img src="../images/FSAE_car.jpg" style="
+            width:90px;
+            height:90px;
+            object-fit:cover;
+            border-radius:12px;
+            box-shadow:0 4px 12px rgba(0, 0, 0, 0.15);
+            border:3px solid #fff;
+            flex-shrink:0;">
+    </div>
+<h2>Objective</h2>
     <p>
         Design and build a <strong>3-phase motor inverter</strong> to drive <strong>BYU
         Racing's FSAE electric car,</strong> converting the 600V battery pack's DC
@@ -56,7 +66,7 @@
         alongside a group of MEs on the eventual custom cooling loop enclosure.
     </p>
 
-    <h2>Key Requirements</h2>
+<h2>Key Requirements</h2>
     <ul>
         <li><strong>600V, 150A</strong> maximum design targets</li>
         <li>FSAE rules cap max power draw at <strong>80kW</strong> with a max pack voltage of <strong>600V</strong></li>
@@ -65,7 +75,7 @@
         <li>Built around sponsored <strong>Infineon SiC MOSFETs and gate drivers</strong></li>
     </ul>
 
-    <h2>System Architecture</h2>
+<h2>System Architecture</h2>
     <p>
         The power stage uses <strong>3 SiC MOSFETs in parallel</strong> on each
         side of the half bridges, with <strong>3 half bridges</strong> total to
@@ -82,7 +92,7 @@
     <img src="../images/inverter_f1.png" style="max-width: 100%; margin: 20px 0;">
     <img src="../images/inverter_b1.png" style="max-width: 100%; margin: 20px 0;">
 
-    <h2>Design Challenges and Iterations</h2>
+<h2>Design Challenges and Iterations</h2>
     <p>
         <strong>Thermal management</strong> has been the biggest challenge on
         this project. Running multiple SiC MOSFETs in parallel per switch
@@ -101,7 +111,7 @@
         <strong>length-matched</strong>, which resolved the timing mismatch.
     </p>
 
-    <h2>Results</h2>
+<h2>Results</h2>
     <p>
         The team has verified the overall design and waveform quality on the
         <strong>100V/20A</strong> prototype, confirming clean switching
@@ -114,7 +124,7 @@
     </p>
     <!-- final pic of 3-phase prototype working-->
 
-    <h2>Skills and Tools</h2>
+<h2>Skills and Tools</h2>
     <ul>
         <li>SiC MOSFET power stage design (paralleled half bridges)</li>
         <li>Gate drive layout and trace length matching</li>
