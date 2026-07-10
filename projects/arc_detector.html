@@ -24,18 +24,18 @@
     <ul>
         <li>16 channels</li>
         <li>5-10 µs pulse capture</li>
-        <li>&lt;0.5% measurement error target</li>
-        <li>Industrial environment operation</li>
+        <li>&lt;1% measurement error target</li>
+        <li>Reliable 24/7 industrial environment operation</li>
     </ul>
 
     <h2>System Architecture</h2>
     <p>
         Each channel receives a 0-4V input pulse from an arc flash optical
         sensor (photodiode based) representing the intensity of a detected arc
-        event. The core of each channel is a peak-detector circuit built around
+        event. The core of each channel's circuitry is a peak-detector built around
         an AD8066 op amp driving a holding capacitor. The op amp charges the
         capacitor to the peak input voltage and holds that charge for several
-        milliseconds, which is long enough for the Beckhoff PLC to sample it on
+        milliseconds, which is long enough for the PLC to sample it on
         its own scan cycle.
     </p>
 
@@ -48,62 +48,69 @@
         Each channel outputs two signals to the PLC:
     </p>
     <ul>
+        <li>A fault detection output that tells the PLC an arc event occured and it's time to sample</li>
         <li>An analog output representing the held peak voltage</li>
-        <li>A digital fault detection output that tells the PLC an arc event was detected and it's time to sample</li>
     </ul>
     <p>
         After the PLC samples the peak value, it drives a reset (RST) signal
         back to the circuit, which discharges the holding capacitor and
-        prepares the channel to capture the next event.
+        prepares the channel to capture the next event. The circuit Schematic is shown below.
     </p>
 
-    <!-- Add a block diagram image here showing: photodiode sensor -> AD8066 peak detector -> analog out / fault out -> PLC -> RST back to circuit -->
+    <!-- block diagram here? -->
     <img src="../images/arc_detector_s1.png" style="max-width: 100%; margin: 20px 0;">
     </img>
 
-    <h2>Design Challenges and Iteration</h2>
+    <h2>Design Challenges and Iterations</h2>
     <p>
         Getting accurate peak capture on a 5-10 µs pulse while holding that
-        value stable for milliseconds turned out to be a difficult balance.
+        value stable for milliseconds turned out to be a complex balance.
         Early iterations of the circuit only achieved around 10% accuracy,
-        with most of the error coming from capacitor droop, op amp leakage,
-        and reset timing.
+        with most of the error coming from capacitor droop, op amp and diode leakage,
+        and reset timing. You can see this on the oscilloscope reading below.
     </p>
-        <img src="../images/arc_detector_s2.png" style="max-width: 100%; margin: 20px 0;">
+        <img src="../images/arc_detector_t1.png" style="max-width: 100%; margin: 20px 0;">
     </img>
     
     <p>
         Through several redesigns of the peak-detector stage, I brought the final 
-        iteration down to under 0.5% total measurement accuracy across the full 
-        signal path, from optical input to PLC readout. I validated this by 
-        feeding known reference pulses into each channel and comparing the PLC's 
-        recorded values against the measured input 10 times. This accuracy increase was due
-        to component selection and good power filtering to give the op amp 
-        extremely clean power rails.
+        iteration down to &tl;0.5% total measurement accuracy across the full 
+        signal path, from optical input to PLC readout. You can see the difference below.
     </p>
-
-    <!-- Add photos or scope captures of early vs final iterations here -->
-    <!--<img src="images/arc_detector_f1.png" alt="System block diagram" style="max-width: 100%; margin: 20px 0;">
-        </img> -->
+        <img src="../images/arc_detector_t2.png" style="max-width: 100%; margin: 20px 0;">
+    </img>
+    <p>
+        This gainin accuracy was due to swapping components and designing a better power 
+        filter as shown below. Creating extremely clean power rails for the op-amp proved 
+        to increase accuracy by ~1%. I validated the total accuracy by feeding known 
+        reference pulses into each channel and comparing the PLC's recorded values against
+        the input values around 10 times per channel.
+    </p>
+        <img src="../images/arc_detector_s2.png" style="max-width: 100%; margin: 20px 0;">
+    </img>
     
-    <h2>Mechanical and Enclosure Design</h2>
+<h2>Mechanical and Enclosure Design</h2>
     <p>
         In addition to the electrical design, I designed the enclosure housing
         all 16 channels and selected D-sub connectors to bring signals from the
         field into the enclosure for a clean, industrial-ready package.
     </p>
 
+    <p>
+        Also designed the main I/O panel for power filtering and modular PCB "hat" design
+    </p>
+
     <!-- Add enclosure and connector photos here -->
     <!-- <img src="images/arc_detector_enclosure.png" alt="Finished enclosure" style="max-width: 100%; margin: 20px 0;"> -->
 
-    <h2>My Role</h2>
+<h2>My Role</h2>
     <p>
         This was a solo project completed over about two months, covering
         circuit design, PCB layout, enclosure design, connector selection,
         and full system validation and testing.
     </p>
 
-    <h2>Results</h2>
+<h2>Results</h2>
     <p>
         The final system met all key requirements: 16 channels, reliable
         capture of 5-10 µs pulses, and better than 0.5% total measurement
@@ -112,8 +119,8 @@
 
     <h2>Skills and Tools</h2>
     <ul>
-        <li>Analog circuit design (peak detection, op amp based signal conditioning)</li>
-        <li>PCB layout</li>
+        <li>Analog circuit design (op amp based signal conditioning)</li>
+        <li>Advanced PCB layout to limit EMI effects</li>
         <li>Enclosure and connector design</li>
         <li>PLC integration (Beckhoff)</li>
         <li>System validation and accuracy testing</li>
