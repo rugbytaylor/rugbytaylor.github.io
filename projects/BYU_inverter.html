@@ -1,25 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BYU Inverter</title>
+    <title>600V EV Inverter</title>
+    <style>
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .headshot {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 3px solid #fff;
+            flex-shrink: 0;
+        }
+        @media (max-width: 600px) {
+            .intro {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
 <body style="font-family: Arial; max-width: 900px; margin: auto; padding: 40px;">
 
     <p>
         <a href="../index.html">
             Back to Homepage
-            </a>
+        </a>
     </p>
-
-    <h1> 600V EV Inverter</h1>
+    <h1>600V EV Inverter</h1>
 
     <h2>Objective</h2>
-
     <p>
-        include description
+        Design and build a <strong>3-phase motor inverter</strong> to drive <strong>BYU
+        Racing's FSAE electric car,</strong> converting the 600V battery pack's DC
+        output into the 3-phase AC needed to run the drivetrain motor. Given
+        the scope and risk of working at full pack voltage and current, the
+        team is building the inverter in <strong>stages</strong>: a 100V/20A
+        prototype to validate the core design, a 300V/50A version to push
+        current handling and thermals further, and finally the full
+        <strong>600V/150A</strong> version for the race car. Starting in <strong>January 2026,</strong>
+        this is an ongoing <strong>team project of about 12 people.</strong>
+        I serve as the <strong>EE team lead</strong>, working alongside a
+        group of MEs handling thermal management and the eventual custom
+        cooling loop enclosure.
     </p>
 
+    <h2>Key Requirements</h2>
+    <ul>
+        <li><strong>600V, 150A</strong> maximum design targets</li>
+        <li>FSAE rules cap max power draw at <strong>80kW</strong> with a max pack voltage of <strong>600V</strong></li>
+        <li>Switching frequency around <strong>20 kHz</strong></li>
+        <li>Keep thermals under roughly <strong>90°C</strong></li>
+        <li>Built around sponsored <strong>Infineon SiC MOSFETs and gate drivers</strong></li>
+    </ul>
+
+    <h2>System Architecture</h2>
+    <p>
+        The power stage uses <strong>3 SiC MOSFETs in parallel</strong> on each
+        side of the half bridges, with <strong>3 half bridges</strong> total to
+        produce the 3 output phases. Each half bridge is backed by
+        <strong>DC bus capacitors</strong> to handle the switching current
+        demand. An <strong>STM32</strong> generates the PWM control signals for
+        the gate drivers, and the team is currently developing the
+        <strong>current sensing</strong> circuitry to close the loop on motor
+        control.
+    </p>
+
+    <img src="../images/inverter_s1.png" style="max-width: 100%; margin: 20px 0;">
+
+    <img src="../images/inverter_f1.png" style="max-width: 100%; margin: 20px 0;">
+    <img src="../images/inverter_b1.png" style="max-width: 100%; margin: 20px 0;">
+
+    <h2>Design Challenges and Iterations</h2>
+    <p>
+        <strong>Thermal management</strong> has been the biggest challenge on
+        this project. Running multiple SiC MOSFETs in parallel per switch
+        position helps spread conduction losses, and the team designed
+        <strong>custom heat sinks</strong> along with PCBs laid out specifically
+        for good thermal performance to keep temperatures under control on
+        the benchtop.
+    </p>
+        <img src="../images/inverter_t1.png" style="max-width: 100%; margin: 20px 0;">
+    <p>
+        Paralleling MOSFETs also introduced a <strong>gate timing mismatch</strong>
+        between the three parallel devices on each switch position, since
+        even small differences in gate trace length can cause them to switch
+        at slightly different times. The fix was to make sure the gate
+        traces to all three parallel MOSFETs on a given switch were
+        <strong>length-matched</strong>, which resolved the timing mismatch.
+    </p>
+
+    <h2>Results</h2>
+    <p>
+        The team has verified the overall design and waveform quality on the
+        <strong>100V/20A</strong> prototype, confirming clean switching
+        behavior across a limited number of bench tests. Thermal performance
+        was also spot-checked during these tests and stayed within a
+        reasonable range, though the design has not yet been stress-tested
+        over extended runs. Work is currently underway on the
+        <strong>300V/50A</strong> stage before scaling up to the full
+        <strong>600V/150A</strong> version for the race car.
+    </p>
+    <!-- final pic of 3-phase prototype working-->
+
+    <h2>Skills and Tools</h2>
+    <ul>
+        <li>SiC MOSFET power stage design (paralleled half bridges)</li>
+        <li>Gate drive layout and trace length matching</li>
+        <li>Custom PCB design for high-current, high-thermal applications</li>
+        <li>STM32-based PWM control</li>
+        <li>Thermal management (heat sink and PCB co-design with ME team)</li>
+        <li>Bench validation and waveform testing</li>
+        <li>Cross-discipline team leadership (EE team lead)</li>
+    </ul>
 
 <hr>
 <hr>
@@ -32,3 +131,13 @@
             <p>LinkedIn: <a href="https://www.linkedin.com/in/rugby-taylor" target="_blank">Rugby Taylor</a></p>
         </div>
     </div>
+
+<br>
+    <p>
+        <a href="../index.html">
+            Back to Homepage
+        </a>
+    </p>
+
+</body>
+</html>
