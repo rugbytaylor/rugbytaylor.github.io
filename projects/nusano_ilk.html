@@ -1,19 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Industrial Safety Interlock Hardware</title>
+    <title>Industrial Interlock Hardware</title>
+    <style>
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .headshot {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 3px solid #fff;
+            flex-shrink: 0;
+        }
+        @media (max-width: 600px) {
+            .intro {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
 <body style="font-family: Arial; max-width: 900px; margin: auto; padding: 40px;">
 
     <p>
         <a href="../index.html">
             Back to Homepage
-            </a>
+        </a>
+    </p>
+    <h1>Industrial Interlock Hardware</h1>
+
+    <h2>Objective</h2>
+    <p>
+        Design an <strong>analog safety interlock system</strong> that monitors the
+        current flowing through a machine's power wire using an
+        <strong>open-loop Hall-effect current sensor</strong>. If the measured current
+        stayed above a set threshold, the interlock would close and allow
+        normal machine operation. If the current dropped below that
+        threshold, the interlock would open, cutting off operation and
+        allowing safe maintenance access. This was a <strong>solo project</strong>
+        completed over about <strong>one month</strong>, spanning <strong>four design
+        iterations</strong> from initial concept to validated hardware.
     </p>
 
-    <h1>Industrial Safety Interlock Hardware</h1>
+    <h2>Key Requirements</h2>
+    <ul>
+        <li>Primarily <strong>analog circuitry</strong>, since this is a safety-critical device</li>
+        <li><strong>Adjustable current trip threshold</strong></li>
+        <li>Industrial environment operation</li>
+        <li>No specific formal safety rating targeted, but designed and treated as a safety device</li>
+    </ul>
 
+    <h2>System Architecture</h2>
+    <p>
+        An open-loop Hall-effect sensor measures the current on the
+        monitored wire and outputs a proportional analog signal. That signal
+        feeds into a <strong>comparator</strong>, which compares it against an
+        <strong>adjustable reference voltage (Vref)</strong> set by an onboard
+        potentiometer. The comparator's output drives an <strong>ILK safety
+        relay</strong>, closing it above the current threshold and opening it below
+        the threshold. The board also includes a set of <strong>indicator LEDs</strong>
+        for quick visual status of the interlock state.
+    </p>
+
+    <img src="../images/interlock_s1.png" style="max-width: 100%; margin: 20px 0;">
+
+    <p>
+        In parallel, the current sensor's output also feeds into an
+        <strong>op amp scaling circuit</strong> to boost resolution before the signal
+        reaches the PLC's ADC, giving the PLC a much finer-grained reading of
+        the current than the raw sensor output alone would allow. The board
+        also controls an external <strong>solid-state relay</strong> and interfaces with
+        the PLC for continuous data sampling.
+    </p>
+
+    <img src="../images/interlock_f1.png" style="max-width: 100%; margin: 20px 0;">
+    <img src="../images/interlock_b1.jpg" style="max-width: 100%; margin: 20px 0;">
+
+    <h2>Design Challenges and Iterations</h2>
+    <p>
+        Getting a wide, usable adjustment range on the Vref potentiometer
+        proved to be the biggest challenge. The first version could only
+        tune the trip threshold across a narrow <strong>0.5-1.5A</strong> window. After
+        reworking the reference divider and comparator biasing across
+        several iterations, the final version tunes smoothly across
+        <strong>0-3A</strong>, a much wider and more practical adjustment range.
+    </p>
+
+    <img src="../images/interlock_t1.png" style="max-width: 100%; margin: 20px 0;">
+
+    <h2>Mechanical and Enclosure Design</h2>
+    <p>
+        I designed the mechanical enclosure for this system using the same
+        approach as the Arc Detector project, housing the PCB in an
+        industrial-ready enclosure with clean field wiring access.
+    </p>
+
+    <img src="../images/interlock_m1.png" style="max-width: 100%; margin: 20px 0;">
+
+    <hr>
+
+    <h2>Results</h2>
+    <p>
+        The final board's adjustable Vref was verified to tune cleanly
+        across the full <strong>0-3A</strong> target range. Since the underlying
+        current signal only spans <strong>0-7.5A</strong>, this gives usable trip-point
+        adjustment across roughly <strong>half</strong> of the sensor's total range,
+        far better than the original design. I also validated the complete
+        hardware loop end to end, confirming the system closes the
+        interlock during normal operation and correctly faults open when
+        current drops below threshold.
+    </p>
+
+    <h2>Skills and Tools</h2>
+    <ul>
+        <li>Analog safety circuit design (Hall-effect sensing, comparator, op amp scaling)</li>
+        <li>Adjustable reference/threshold circuit design</li>
+        <li>PCB layout for an industrial safety device</li>
+        <li>Enclosure design</li>
+        <li>PLC integration and data sampling</li>
+        <li>System validation and fault testing</li>
+    </ul>
 
 <hr>
 <hr>
@@ -26,3 +138,13 @@
             <p>LinkedIn: <a href="https://www.linkedin.com/in/rugby-taylor" target="_blank">Rugby Taylor</a></p>
         </div>
     </div>
+
+<br>
+    <p>
+        <a href="../index.html">
+            Back to Homepage
+        </a>
+    </p>
+
+</body>
+</html>
