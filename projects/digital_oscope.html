@@ -47,15 +47,148 @@
             Back to Homepage
         </a>
     </p>
-    
+
 <div class="title-box">
     <h1>Embedded Digital Oscilloscope</h1>
 </div>
 
-<br>
-<p>need to include project details here...</p>
-<br>
-    
+    <h2>Objective</h2>
+    <p>
+        Design a fully embedded, battery-powered digital oscilloscope capable
+        of measuring <strong>-5V to +5V</strong> signals using an <strong>ESP32</strong>, with real-time
+        waveform display, on-screen cursor tools, waveform freeze/screenshot
+        capture, and accurate voltage readout. Beyond the hardware, a major
+        goal of this project was to build out a complete embedded software
+        pipeline in <strong>C</strong>, including version control and CI/CD automation, with
+        a planned path to OTA firmware updates. This was a <strong>solo project</strong>
+        completed over <strong>two months</strong>, started as a personal extension of an
+        ESP32 game console I built in a class, done entirely on my own time to
+        learn more about embedded systems.
+    </p>
+
+    <h2>Key Requirements</h2>
+    <ul>
+        <li><strong>-5V to +5V</strong> input range, single channel</li>
+        <li><strong>10-20 kHz</strong> signal measurement target</li>
+        <li><strong>&lt;10%</strong> measurement error target</li>
+        <li>Fully embedded and battery powered, with on-board charging</li>
+        <li>Real-time waveform display with cursor, freeze, and screenshot capture</li>
+    </ul>
+
+    <h2>System Architecture</h2>
+    <p>
+        The analog front-end is a simple <strong>op-amp scaling circuit</strong> built
+        around an <strong>MCP6002</strong> op amp, which scales the -5V to +5V input range
+        down into the 0-3.3V range the ESP32's ADC can accept. This was
+        designed and verified in LTspice before moving to hardware, as shown
+        below.
+    </p>
+    <!-- LTspice picture -->
+    <img src="../images/oscilloscope_LTspice0.png" style="max-width: 100%; margin: 20px 0;">
+
+    <p>
+        The rest of the system is built around the ESP32, which samples the
+        conditioned signal, renders the waveform in real time on a small LED
+        screen, and reads input from a joystick and buttons for navigating
+        the display, freezing the waveform, and capturing screenshots. An
+        SD card slot on the screen module doubles as both a calibration tool
+        during development and a way to store captured waveform data. Power
+        comes from an onboard 3.3V lithium battery with charging circuitry,
+        making the whole board self-contained and portable.
+    </p>
+    <img src="../images/oscilloscope_breadboard1.jpg" style="max-width: 100%; margin: 20px 0;">
+    <img src="../images/oscilloscope_pcb1.png" style="max-width: 100%; margin: 20px 0;">
+
+    <p>
+        On the software side, the entire application was written in <strong>C</strong>. I
+        also built out a full development pipeline for the project using
+        <strong>GitHub Actions for CI/CD</strong>, with a planned future addition of
+        <strong>OTA (over-the-air) firmware updates</strong> so the oscilloscope can be
+        updated without a physical connection.
+    </p>
+
+    <h2>Design Challenges and Iterations</h2>
+    <p>
+        The hardest problem was getting the real-time waveform display to
+        render accurately without aliasing. Balancing ADC sample rate against
+        how quickly the screen could redraw was a constant tradeoff: sampling
+        too slowly caused aliasing on faster signals, while refreshing too
+        aggressively made the waveform difficult to read. Finding a sample
+        rate and display refresh combination that kept 10-20 kHz signals
+        both accurate and visually legible took a lot of iteration.
+    </p>
+
+    <p>
+        The other major challenge was calibration. Because the analog
+        front-end introduced its own small nonlinearities, I built a custom
+        <strong>lookup table (LUT)</strong> to map raw ADC readings back to real input
+        voltage. To calibrate it, I fed a known waveform from a benchtop
+        waveform generator into the circuit, logged the ESP32's sampled
+        voltage and timing data to one SD card, and simultaneously logged the
+        waveform generator's actual output to a second SD card. I then wrote
+        a <strong>MATLAB script</strong> to align and compare the two datasets and
+        generate the LUT relating raw ADC readings to true input voltage.
+        Getting the on-screen cursor to correctly report LUT-corrected values
+        (rather than raw ADC counts) took additional tuning, but wasn't
+        conceptually difficult, just time-consuming to get right.
+    </p>
+
+    <img src="../images/oscilloscope_matlab_calibration.png" style="max-width: 100%; margin: 20px 0;">
+
+    <p>
+        The board itself went through <strong>three PCB iterations</strong>. The first
+        revision had several ESP32 pins wired incorrectly, and later revisions
+        mostly corrected footprint sizing issues and refined the op-amp
+        scaling circuit until it performed as designed in simulation.
+    </p>
+
+    <h2>Validation and Results</h2>
+    <p>
+        I validated total system accuracy the same way I calibrated it:
+        feeding a known waveform into the circuit, capturing the ESP32's
+        measured values on one SD card and the waveform generator's actual
+        output on another, then using a second MATLAB script to directly
+        compare the two datasets and calculate measurement error.
+    </p>
+    <img src="../images/oscilloscope_matlab_error.png" style="max-width: 100%; margin: 20px 0;">
+
+    <p>
+        The final system achieved <strong>&lt;2% measurement error</strong>, well
+        beyond the original target of <strong>&lt;10% error</strong>. Most of that
+        improvement came from the custom LUT correcting for nonlinearities
+        in the analog front-end that the raw ADC readings alone could not
+        account for.
+    </p>
+    <img src="../images/oscilloscope_final1.jpg" style="max-width: 100%; margin: 20px 0;">
+
+    <p>
+        Below is a demonstration of the oscilloscope displaying a live
+        waveform in real time.
+    </p>
+    <video src="../images/oscilloscope_demo.mp4" controls style="max-width: 100%; margin: 20px 0;"></video>
+
+    <h2>Results</h2>
+    <p>
+        The final system met and exceeded all key requirements: a
+        fully embedded, battery-powered oscilloscope measuring <strong>-5V to +5V</strong>
+        signals up to <strong>10-20 kHz</strong>, with real-time waveform display, cursor
+        and freeze/screenshot functionality, and better than <strong>2% total
+        measurement error</strong>. The project is currently built and validated on a
+        breadboard; an enclosure was not built as part of this iteration.
+    </p>
+
+    <h2>Skills and Tools</h2>
+    <ul>
+        <li>Embedded C programming (ESP32)</li>
+        <li>Analog circuit design (op amp based signal conditioning)</li>
+        <li>Real-time signal sampling and display rendering</li>
+        <li>Custom LUT-based calibration and error analysis (MATLAB)</li>
+        <li>PCB layout and iteration</li>
+        <li>Software development pipeline design (Git, GitHub Actions CI/CD)</li>
+        <li>Planned OTA firmware update architecture</li>
+        <li>System validation and accuracy testing</li>
+    </ul>
+
 <hr>
 <hr>
 <h2>Contact Me</h2>
