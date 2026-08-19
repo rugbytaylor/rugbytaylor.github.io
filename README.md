@@ -13,6 +13,6 @@ https://rugbytaylor.github.io
 ├── index.html              # Website Main homepage
 ├── projects/               # Individual project pages
 ├── images/                 # All images on website
-├── additional_stuff/       # extra pictures for "Rugby Over The Years" page
+├── additional_stuff/       # All files for "Rugby Over The Years" page
 ├── RugbyTaylor_Resume.pdf  # Resume that needs manually updating
 └── README.md
