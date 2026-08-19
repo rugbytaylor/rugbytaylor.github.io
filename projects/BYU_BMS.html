@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EV Battery Management System (BMS)</title>
+    <style>
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .headshot {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 3px solid #fff;
+            flex-shrink: 0;
+        }
+        @media (max-width: 600px) {
+            .intro {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        .title-box {
+            background: linear-gradient(135deg, #071428, #163A63, #2C5D8A);
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .title-box h1 {
+            color: white;
+            margin: 0;
+            font-size: 36px;
+            letter-spacing: 1px;
+        }
+        .img-placeholder {
+            width: 100%;
+            max-width: 500px;
+            height: 260px;
+            background: #eee;
+            border: 2px dashed #bbb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-style: italic;
+            margin: 20px 0;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body style="font-family: Arial; max-width: 900px; margin: auto; padding: 40px;">
+
+    <p>
+        <a href="../index.html">
+            Back to Homepage
+        </a>
+    </p>
+
+<div class="title-box">
+    <h1>Custom Automotive Battery Management System</h1>
+</div>
+
+    <h3>Formula Society of Automotive Engineers (FSAE)</h3>
+
+    <h2>Objective</h2>
+    <p>
+        Design and build a <strong>custom automotive-grade Battery Management
+        System (BMS)</strong> for BYU Racing's FSAE electric formula car, capable
+        of safely monitoring and balancing a <strong>108S4P high-voltage
+        accumulator</strong> built from 9 series-connected modules. As <strong>lead
+        EE</strong> on a team of 4 (two of whom were freshmen/sophomores), I owned
+        the technical direction of the project from schematic through PCB
+        layout, while also managing timelines, setting stretch goals, and
+        stepping in wherever the team needed extra hands to keep the project
+        moving. This has been an <strong>ongoing project since late June
+        2026</strong>, with first-iteration hardware now manufactured and in
+        active testing.
+    </p>
+
+    <h2>Key Requirements</h2>
+    <ul>
+        <li><strong>108S4P</strong> pack architecture, 9 modules in series, each module <strong>12S4P</strong></li>
+        <li>Per-cell-group voltage monitoring and passive balancing via <strong>LTC6811-1</strong> per module</li>
+        <li><strong>12 thermistors per module</strong> (one per parallel cell stack) for full thermal coverage</li>
+        <li>Reliable <strong>isoSPI</strong> daisy-chain communication across all 9 modules</li>
+        <li>Automotive-grade component selection prioritizing reliability and serviceability</li>
+        <li>Custom flexible PCB (FPC) voltage tap connections between cells and slave boards</li>
+    </ul>
+
+    <h2>System Architecture</h2>
+    <p>
+        The system is split into <strong>slave boards</strong> and a central
+        <strong>master board</strong>. Each of the 9 modules carries its own slave
+        board built around an <strong>LTC6811-1</strong> battery monitor IC, reading
+        voltage across every 4P parallel cell group in its 12S4P module and
+        driving passive balancing when needed. Each slave board also monitors
+        <strong>12 thermistors</strong>, one per parallel cell stack, giving full
+        thermal visibility across every group in the module rather than a
+        handful of spot checks. I fully owned the <strong>schematic capture and PCB
+        layout</strong> for the slave boards, including component selection focused
+        on automotive-grade reliability and ease of field service.
+    </p>
+    <p>
+        The <strong>master board</strong> ties all 9 modules together over an
+        <strong>isoSPI daisy chain</strong>, aggregating pack-wide voltage and
+        temperature data. It's built around an <strong>STM32</strong> for
+        processing and communication, with onboard <strong>indicator LEDs</strong>
+        for quick system status at a glance, a <strong>USB port</strong> for direct
+        debugging and data pull, and <strong>CAN adapters</strong> for integration
+        with the rest of the car's electronics. I handled the <strong>PCB
+        layout</strong> for the master board, working from the schematic the team
+        developed together.
+    </p>
+
+    <div class="img-placeholder">Slave board schematic (coming soon)</div>
+    <div class="img-placeholder">Master board schematic (coming soon)</div>
+    <div class="img-placeholder">Slave board PCB / CAD render (coming soon)</div>
+    <div class="img-placeholder">Master board PCB / CAD render (coming soon)</div>
+    <div class="img-placeholder">Manufactured slave board photo (coming soon)</div>
+    <div class="img-placeholder">Manufactured master board photo (coming soon)</div>
+
+    <h2>Design Challenges: Custom Flex PCBs for Voltage Sensing</h2>
+    <p>
+        One of the trickiest parts of the system was getting reliable, compact
+        voltage tap connections from the busbars to each slave board without
+        adding bulky wiring or unreliable connectors into a space-constrained
+        module. I took this on <strong>solo</strong>, teaching myself flexible PCB
+        (FPC) design from scratch, everything from stackup selection and bend
+        radius constraints to coverlay, stiffeners, and connector footprints,
+        and designed a custom FPC solution to carry voltage taps cleanly from
+        the cells to the slave board.
+    </p>
+    <p>
+        The final design was polished enough that I presented it in a
+        <strong>design review with an applications engineer from an FPC
+        manufacturer</strong>, who gave positive feedback on the layout and
+        manufacturability. Going from zero flex-PCB experience to a
+        production-ready design that held up under outside engineering
+        scrutiny was one of the most rewarding parts of this project, and it's
+        a skill set that sets me apart from most of my peers.
+    </p>
+
+    <div class="img-placeholder">FPC design / CAD (coming soon)</div>
+    <div class="img-placeholder">Manufactured FPC photo (coming soon)</div>
+
+    <h2>Leadership</h2>
+    <p>
+        With two underclassmen on a four-person team, I ended up driving most
+        of the day-to-day direction of the project. That meant setting and
+        adjusting timelines as manufacturing and testing realities came up,
+        pushing the team toward stretch goals once core requirements were on
+        track, and stepping in personally to pick up tasks whenever a teammate
+        fell behind or hit a wall. Balancing hands-on design work with keeping
+        the whole project on schedule was as much a part of this role as the
+        electrical engineering itself.
+    </p>
+
+    <h2>Results</h2>
+    <p>
+        First-iteration slave and master boards have been manufactured and are
+        currently in <strong>bench testing</strong>, with voltage and temperature
+        readings confirmed across cell groups and balancing behavior under
+        active validation. The custom FPC voltage taps have proven reliable
+        during initial bring-up testing, and the modular slave/master
+        architecture has made isolating and debugging individual modules
+        straightforward. The team is continuing testing and iteration ahead of
+        full pack integration.
+    </p>
+
+    <h2>Skills and Tools</h2>
+    <ul>
+        <li>Battery management IC integration (LTC6811-1) and isoSPI communication</li>
+        <li>Full schematic capture and PCB layout (slave boards)</li>
+        <li>PCB layout for STM32-based master controller board</li>
+        <li>Custom flexible PCB (FPC) design, from stackup to manufacturability, self-taught</li>
+        <li>Automotive-grade component selection for reliability and serviceability</li>
+        <li>Thermal sensing and passive cell balancing architecture</li>
+        <li>Cross-discipline project leadership: timelines, stretch goals, and team support</li>
+        <li>Design review and communication with outside industry engineers</li>
+    </ul>
+
+<hr>
+<hr>
+<h2>Contact Me</h2>
+    <div class="intro">
+        <img src="../images/Rugby_headshot.JPG" alt="Photo of Rugby Taylor" class="headshot">
+        <div>
+            <p>Mobile: (801) 420-5387</p>
+            <p>Email: <a href="mailto:rugbytaylor3@gmail.com">rugbytaylor3@gmail.com</a></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/rugby-taylor" target="_blank">Rugby Taylor</a></p>
+            <p><a href="../additional_stuff/additional_stuff.html">Rugby over the years</a></p>
+        </div>
+    </div>
+
+<br>
+    <p>
+        <a href="../index.html">
+            Back to Homepage
+        </a>
+    </p>
+
+</body>
+</html>
